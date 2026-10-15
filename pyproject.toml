@@ -1,0 +1,54 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "vibe-control"
+version = "0.5.14"
+description = "CLI control layer for coding-agent workflows (knowledge + task + optional hetu + skill-assay)"
+authors = [{name = "mike-boost"}]
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+  "PyYAML>=6.0",
+]
+
+[project.optional-dependencies]
+notebooklm = [
+  "notebooklm-py>=0.8.5",
+]
+skill-assay-hosts = [
+  "github-copilot-sdk>=1.0.7",
+]
+dev = [
+  "pytest>=8.0",
+  "pytest-xdist>=3.5",
+]
+
+[project.scripts]
+vibe = "vibe_control.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+  vibe_control = [
+  "templates/*.yaml",
+  "templates/gitignore.consumer.example",
+  "skills/*/SKILL.md",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src", "tests"]
+markers = [
+  "unit: parallel-safe unit / fake-provider tests",
+  "integration: broader integration tests (may be parallel if isolated)",
+  "acceptance: acceptance-script wrappers or acceptance audits",
+  "real_notebooklm: talks to real NotebookLM (read or mutate)",
+  "real_hetu: talks to real codebase-memory-mcp (read or reindex)",
+  "serial: must not run under xdist / shared state",
+  "slow: intentionally slow tests",
+  "mutation: can mutate NotebookLM, Hetu index, or other remote providers",
+  "real_skill_host: talks to real Cursor/Copilot for Skill Assay (opt-in smoke)",
+]

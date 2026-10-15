@@ -1,0 +1,13 @@
+codebase-memory-mcp 0.9.0
+
+Usage:
+  codebase-memory-mcp              Run MCP server on stdio
+  codebase-memory-mcp cli <tool> [json]  Run a single tool
+  codebase-memory-mcp config <list|get|set|reset>
+  codebase-memory-mcp --version    Print version
+  codebase-memory-mcp --help       Print this help
+
+Tools: index_repository, search_graph, query_graph, trace_path,
+  get_code_snippet, get_graph_schema, get_architecture, search_code,
+  list_projects, delete_project, index_status, detect_changes,
+  manage_adr, ingest_traces

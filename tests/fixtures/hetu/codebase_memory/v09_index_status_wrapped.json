@@ -1,0 +1,8 @@
+{
+  "content": [
+    {
+      "type": "text",
+      "text": "{\"project\":\"demo-project\",\"nodes\":1200,\"edges\":3400,\"status\":\"ready\"}"
+    }
+  ]
+}

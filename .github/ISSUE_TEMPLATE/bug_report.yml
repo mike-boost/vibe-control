@@ -1,0 +1,77 @@
+name: Bug report
+description: Something broken or blocked when installing, configuring, or running doctor
+title: "[bug] "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for filing a bug report.
+
+        **Redact before paste:** no tokens, cookies, `.env`, raw notebook refs, or private provider IDs.
+        Prefer `vibe doctor --json` with secrets replaced by `[REDACTED]`.
+  - type: input
+    id: vibe-version
+    attributes:
+      label: Vibe version
+      description: Output of `vibe --version`
+      placeholder: vibe-control 0.5.0
+    validations:
+      required: true
+  - type: dropdown
+    id: install-method
+    attributes:
+      label: Install method
+      options:
+        - pipx from GitHub tag
+        - pipx from git URL (untagged)
+        - editable pip install -e
+        - other
+    validations:
+      required: true
+  - type: input
+    id: os-python
+    attributes:
+      label: OS / Python
+      placeholder: macOS 15 / Python 3.12
+    validations:
+      required: true
+  - type: dropdown
+    id: knowledge-enabled
+    attributes:
+      label: Is components.knowledge.enabled true?
+      options:
+        - "false / unset"
+        - "true"
+    validations:
+      required: true
+  - type: dropdown
+    id: task-enabled
+    attributes:
+      label: Is components.task.enabled true?
+      options:
+        - "false / unset"
+        - "true"
+    validations:
+      required: true
+  - type: textarea
+    id: doctor-json
+    attributes:
+      label: Redacted `vibe doctor --json`
+      description: Paste doctor JSON. Remove secrets and private refs.
+      render: json
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Reproduction steps
+      description: What you ran and what happened
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected vs actual
+    validations:
+      required: true

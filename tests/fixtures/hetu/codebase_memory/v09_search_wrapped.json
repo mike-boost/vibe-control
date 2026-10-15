@@ -1,0 +1,8 @@
+{
+  "content": [
+    {
+      "type": "text",
+      "text": "{\"total\":1,\"search_mode\":\"bm25\",\"results\":[{\"name\":\"Alpha\",\"qualified_name\":\"demo.mod.Alpha\",\"label\":\"Class\",\"file_path\":\"src/mod.py\",\"start_line\":1,\"end_line\":12,\"rank\":2.0}],\"has_more\":false}"
+    }
+  ]
+}

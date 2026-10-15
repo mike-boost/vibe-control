@@ -1,0 +1,2 @@
+level=info msg=mem.init budget_mb=8192 total_ram_mb=16384
+{"content":[{"type":"text","text":"{\"error\":\"project not found or not indexed\",\"hint\":\"Use list_projects\"}"}],"isError":true}

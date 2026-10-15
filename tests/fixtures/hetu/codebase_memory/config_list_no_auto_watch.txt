@@ -1,0 +1,3 @@
+Configuration:
+  auto_index                = false     
+  auto_index_limit          = 50000     

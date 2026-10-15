@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Vibe Control — 定位 / 远景 / 下一步（修订）</title>
+  <style>
+    :root {
+      --bg: #f6f6f4; --fg: #1a1a1a; --muted: #555; --line: #ccc; --box: #fff;
+      --blue: #0b5fff; --ok: #0a7a3c; --warn: #9a6700; --bad: #b42318;
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; font: 15px/1.55 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; color: var(--fg); background: var(--bg); }
+    header { padding: 18px 22px; border-bottom: 1px solid var(--line); background: var(--box); }
+    header h1 { margin: 0 0 6px; font-size: 19px; }
+    header p { margin: 0; color: var(--muted); max-width: 70rem; }
+    nav { display: flex; flex-wrap: wrap; gap: 8px; padding: 10px 22px; border-bottom: 1px solid var(--line); background: var(--box); position: sticky; top: 0; z-index: 2; }
+    nav a { color: var(--blue); text-decoration: none; border: 1px solid var(--line); padding: 3px 9px; border-radius: 4px; background: #fff; font-size: 13px; }
+    main { padding: 18px 22px 48px; max-width: 1080px; }
+    section { background: var(--box); border: 1px solid var(--line); border-radius: 6px; padding: 14px 16px; margin: 0 0 14px; }
+    h2 { margin: 0 0 8px; font-size: 16px; }
+    h3 { margin: 14px 0 6px; font-size: 14px; }
+    .muted { color: var(--muted); }
+    .tag { display: inline-block; font-size: 11px; padding: 1px 6px; border: 1px solid var(--line); border-radius: 3px; margin-right: 4px; }
+    .tag.ok { color: var(--ok); background: #eef9f2; }
+    .tag.warn { color: var(--warn); background: #fff8e6; }
+    .tag.bad { color: var(--bad); background: #fef0ef; }
+    .tag.blue { color: var(--blue); background: #eef3ff; }
+    pre.flow, .cmd {
+      background: #111; color: #e8e8e8; padding: 10px 12px; border-radius: 4px;
+      font: 12px/1.45 ui-monospace, Menlo, monospace; overflow-x: auto; white-space: pre;
+    }
+    pre.flow { background: #f0f0ec; color: #1a1a1a; border: 1px solid var(--line); }
+    table { width: 100%; border-collapse: collapse; font-size: 13px; margin: 8px 0; }
+    th, td { border: 1px solid var(--line); padding: 7px 9px; text-align: left; vertical-align: top; }
+    th { background: #f0f0ec; }
+    .callout { border-left: 3px solid var(--blue); padding: 8px 11px; background: #f3f6ff; margin: 8px 0; }
+    .callout.warn { border-color: var(--warn); background: #fff8e6; }
+    .callout.bad { border-color: var(--bad); background: #fef0ef; }
+    .cols { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    @media (max-width: 800px) { .cols { grid-template-columns: 1fr; } }
+    .box { border: 1px solid var(--line); padding: 9px 11px; border-radius: 4px; background: #fafaf8; }
+    .box h4 { margin: 0 0 5px; font-size: 13px; }
+    .box ul { margin: 0; padding-left: 17px; }
+    svg.diagram { width: 100%; max-width: 1000px; height: auto; display: block; margin: 8px 0; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Vibe Control — 定位 / 远景 / 下一步（修订版）</h1>
+    <p>
+      纠正：Repo SSOT <strong>不是</strong> Vibe 功能；knowledge 才是能力；NotebookLM / Beads 是 provider。
+      Consumer = <strong>使用 Vibe 的 coding agent</strong>。人只设边界与审批。
+      全文索引与表格 SSOT：<code>docs/project/PRODUCT_THINKING_INDEX.md</code> ·
+      调研表：<code>agent-scenario-research.md</code> ·
+      Canvas 视图标题（非 SSOT）：「Vibe — 自解释 + 高频场景」。
+    </p>
+  </header>
+
+  <nav>
+    <a href="#vision">远景</a>
+    <a href="#layers">正确分层</a>
+    <a href="#learn">如何学会（CLI）</a>
+    <a href="#why">为何不直连 provider</a>
+    <a href="#scenes">高频场景调研</a>
+    <a href="#stars">明星对照</a>
+    <a href="#k">Knowledge</a>
+    <a href="#t">Task</a>
+    <a href="#f">安装一条线</a>
+    <a href="#next">下一步</a>
+  </nav>
+
+  <main>
+    <section id="vision">
+      <h2>远景（说清楚）</h2>
+      <div class="callout">
+        <strong>Vibe Control = agent-facing、provider-backed 的控制产品。</strong><br>
+        主操作者是 coding agent。它不替代 Cursor/Claude/Pi，也不替代 NotebookLM/Beads。
+        它做的是：把「某类场景」接到「某个 provider」上时，用统一 CLI / 信封 / 闸门，让 agent
+        <em>可重复、可降级、可变异受控</em>。
+      </div>
+      <table>
+        <thead><tr><th>是</th><th>不是</th></tr></thead>
+        <tbody>
+          <tr>
+            <td>Engine + Capability Profile + 可启用能力（knowledge / task；未来 sdd/tdd…）</td>
+            <td>SSOT 管理产品 / 规格编辑器</td>
+          </tr>
+          <tr>
+            <td>场景 → provider 适配层（今天：SSOT 事实查询 → NotebookLM；任务跟踪 → Beads）</td>
+            <td>又一个 coding agent / workflow 引擎 / durable session 平台</td>
+          </tr>
+          <tr>
+            <td>默认关能力；无 provider 则无法 enable</td>
+            <td>自动替人/agent 打开一切</td>
+          </tr>
+        </tbody>
+      </table>
+      <p class="muted">
+        今天 knowledge 主要服务「从已同步的权威文档回答」——当前场景是 repo 里的 SSOT 语料。
+        未来可能有别的 knowledge 场景（尚未定）；那也仍是 knowledge 能力 + 某 provider，不是「SSOT 功能」。
+      </p>
+    </section>
+
+    <section id="layers">
+      <h2>正确分层（修订图）</h2>
+      <svg class="diagram" viewBox="0 0 980 430" xmlns="http://www.w3.org/2000/svg">
+        <rect x="20" y="16" width="200" height="56" fill="#eee" stroke="#888"/>
+        <text x="120" y="40" text-anchor="middle" font-size="13" font-weight="700">Human</text>
+        <text x="120" y="58" text-anchor="middle" font-size="11" fill="#555">边界 / 审批 / 看 doctor</text>
+
+        <rect x="260" y="16" width="280" height="56" fill="#eef3ff" stroke="#0b5fff" stroke-width="2"/>
+        <text x="400" y="40" text-anchor="middle" font-size="13" font-weight="700">Consumer = Coding Agent</text>
+        <text x="400" y="58" text-anchor="middle" font-size="11" fill="#555">主操作者 · 跑 vibe CLI</text>
+
+        <rect x="580" y="16" width="180" height="56" fill="#f5f0ff" stroke="#5b21b6"/>
+        <text x="670" y="40" text-anchor="middle" font-size="12" font-weight="700">Pi / Cursor / …</text>
+        <text x="670" y="58" text-anchor="middle" font-size="11" fill="#555">agent harness（旁路）</text>
+
+        <rect x="780" y="16" width="180" height="56" fill="#eee" stroke="#333"/>
+        <text x="870" y="40" text-anchor="middle" font-size="12" font-weight="700">Eve 等</text>
+        <text x="870" y="58" text-anchor="middle" font-size="11" fill="#555">agent 运行时（旁路）</text>
+
+        <path d="M400 72 L400 98" stroke="#666"/>
+
+        <!-- Vibe box -->
+        <rect x="140" y="98" width="700" height="160" fill="#eef3ff" stroke="#0b5fff" stroke-width="2"/>
+        <text x="490" y="122" text-anchor="middle" font-size="14" font-weight="700">Vibe Control（产品面）</text>
+
+        <rect x="160" y="138" width="150" height="48" fill="#fff" stroke="#0b5fff"/>
+        <text x="235" y="158" text-anchor="middle" font-size="12" font-weight="600">Engine</text>
+        <text x="235" y="174" text-anchor="middle" font-size="10" fill="#555">CLI / 信封 / doctor</text>
+
+        <rect x="325" y="138" width="150" height="48" fill="#fff" stroke="#0b5fff"/>
+        <text x="400" y="158" text-anchor="middle" font-size="12" font-weight="600">Capability Profile</text>
+        <text x="400" y="174" text-anchor="middle" font-size="10" fill="#555">默认关 · 显式 enable</text>
+
+        <rect x="490" y="138" width="150" height="48" fill="#fff" stroke="#0a7a3c"/>
+        <text x="565" y="158" text-anchor="middle" font-size="12" font-weight="600">knowledge</text>
+        <text x="565" y="174" text-anchor="middle" font-size="10" fill="#555">能力（可启用）</text>
+
+        <rect x="655" y="138" width="160" height="48" fill="#fff" stroke="#9a6700"/>
+        <text x="735" y="158" text-anchor="middle" font-size="12" font-weight="600">task</text>
+        <text x="735" y="174" text-anchor="middle" font-size="10" fill="#555">能力（可启用）</text>
+
+        <rect x="160" y="198" width="660" height="44" fill="#fafafa" stroke="#aaa" stroke-dasharray="4 3"/>
+        <text x="490" y="218" text-anchor="middle" font-size="11" fill="#555">sdd / tdd … = 产品面已占位，但无可用 provider → 今天无法 enable</text>
+        <text x="490" y="234" text-anchor="middle" font-size="10" fill="#888">（不是「没写进图」，是刻意不能开）</text>
+
+        <!-- Outside truth -->
+        <text x="490" y="285" text-anchor="middle" font-size="11" fill="#555">↓ 适配到 provider（派生层） · 真源在 Vibe 产品之外</text>
+
+        <rect x="80" y="300" width="220" height="70" fill="#fff" stroke="#888"/>
+        <text x="190" y="325" text-anchor="middle" font-size="12" font-weight="600">Repo / git 文档</text>
+        <text x="190" y="343" text-anchor="middle" font-size="11" fill="#555">今天 knowledge 的语料来源</text>
+        <text x="190" y="359" text-anchor="middle" font-size="10" fill="#888">≠ Vibe 功能 · 真源在 git</text>
+
+        <rect x="340" y="300" width="220" height="70" fill="#fff" stroke="#0a7a3c"/>
+        <text x="450" y="325" text-anchor="middle" font-size="12" font-weight="600">NotebookLM</text>
+        <text x="450" y="343" text-anchor="middle" font-size="11" fill="#555">knowledge 的 provider</text>
+        <text x="450" y="359" text-anchor="middle" font-size="10" fill="#888">派生索引 / ask</text>
+
+        <rect x="600" y="300" width="220" height="70" fill="#fff" stroke="#9a6700"/>
+        <text x="710" y="325" text-anchor="middle" font-size="12" font-weight="600">Beads (bd)</text>
+        <text x="710" y="343" text-anchor="middle" font-size="11" fill="#555">task 的 provider</text>
+        <text x="710" y="359" text-anchor="middle" font-size="10" fill="#888">任务图 / ready / status</text>
+
+        <path d="M565 186 L450 300" stroke="#0a7a3c" stroke-width="1.5"/>
+        <path d="M500 186 L190 300" stroke="#888" stroke-dasharray="4 3"/>
+        <path d="M735 186 L710 300" stroke="#9a6700" stroke-width="1.5"/>
+      </svg>
+      <div class="callout warn">
+        上一版把「Repo SSOT」画进 Vibe 功能框是错的。正确说法：
+        <strong>knowledge 能力</strong> 当前把「权威文档语料」同步到 NotebookLM 并做受控 ask；
+        语料往往来自 git SSOT，但 SSOT 管理本身不是产品卖点。
+      </div>
+    </section>
+
+    <section id="learn">
+      <h2>Agent 如何学会用 Vibe（纠正「学习契约」）</h2>
+      <div class="callout warn">
+        <strong>你说得对：</strong>agent 在 consumer repo 里<strong>没有</strong> vibe-control 源码树。
+        日常只能靠 <code>vibe</code> CLI + 薄 skill + JSON 信封，不能假定去读产品 git docs。
+      </div>
+      <table>
+        <thead><tr><th>阶段</th><th>有什么</th><th>学什么</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><strong>装机一次</strong></td>
+            <td>GitHub URL → <code>install-user.sh</code> → <code>~/.local/bin/vibe</code></td>
+            <td>把 CLI 装到机器（可顺带 <code>vibe skills install --apply</code>）</td>
+          </tr>
+          <tr>
+            <td><strong>之后每次</strong>（任意 consumer）</td>
+            <td>CLI + <code>~/.agents/skills</code> + consumer <code>.config</code></td>
+            <td><code>--help</code> / <code>describe</code> / <code>doctor</code> / skill 路由表</td>
+          </tr>
+        </tbody>
+      </table>
+      <h3>已有自解释（已实现）</h3>
+      <table>
+        <thead><tr><th>表面</th><th>命令</th><th>说明</th></tr></thead>
+        <tbody>
+          <tr><td>help</td><td><code>vibe --help</code> / 子命令 <code>--help</code></td><td>命令发现</td></tr>
+          <tr><td>Describe</td><td><code>vibe describe --json</code></td><td>控制面自述：authority、surfaces、mutation、component catalog、non_goals</td></tr>
+          <tr><td>Brief / Progress / Gateway</td><td><code>brief</code> / <code>progress</code> / <code>gateway --intent</code></td><td>给 agent 的短状态与意图路由</td></tr>
+          <tr><td>Doctor</td><td><code>vibe doctor --json</code></td><td>就绪与 next_actions</td></tr>
+          <tr><td>Thin skills</td><td><code>vibe skills install</code></td><td>意图→CLI；机制在 CLI</td></tr>
+        </tbody>
+      </table>
+      <p><span class="tag warn">缺口</span> 没有独立的 <code>vibe readme</code>；最接近的是 <code>describe</code>。top-level help 仍露出 dogfood（implementation/closeout），对纯 consumer 不够干净。</p>
+      <div class="cmd"># agent 在任意项目里的第一反应应是：
+vibe --help
+vibe describe --json
+vibe doctor --json
+# 而不是去找 vibe-control 仓库文档</div>
+    </section>
+
+    <section id="why">
+      <h2>价值：为什么 agent 不直接用 provider？</h2>
+      <p>这是产品买点。直接 <code>notebooklm ask</code> / <code>bd …</code> 当然能用；Vibe 解决的是 agent 规模化踩坑：</p>
+      <table>
+        <thead>
+          <tr><th>直连 provider 时 agent 常怎么翻车</th><th>Vibe 适配层做什么</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>乱问、聊天记忆当证据、没有固定答案形状</td>
+            <td>Ask 政策（persona + template + --new）+ Facts/MUST 契约</td>
+          </tr>
+          <tr>
+            <td>notebook 里混着旧源 / 孤儿源，答案被污染</td>
+            <td>sync inventory、ask hygiene、cleanup-candidates（只读）</td>
+          </tr>
+          <tr>
+            <td>不知道该同步哪些文件、乱 add/delete</td>
+            <td>allow_list / 语料选择 / 审批矩阵 / 默认不突变</td>
+          </tr>
+          <tr>
+            <td>provider 挂了仍假装「全绿」</td>
+            <td>repo fallback + 诚实 degraded；product_ready 门禁</td>
+          </tr>
+          <tr>
+            <td>每个 repo 自己拼 CLI 参数与登录流程</td>
+            <td>统一 <code>vibe</code> 信封：code / next_actions / mutation 标志</td>
+          </tr>
+          <tr>
+            <td>能力默认全开，agent 乱碰 live Beads</td>
+            <td>Capability Profile 默认关；live 双闸门</td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="callout">
+        <strong>一句话买点：</strong>
+        Provider 解决「有没有能力」；Vibe 解决「agent 用这能力时别瞎、别越权、失败别装没事」。
+      </div>
+    </section>
+
+    <section id="scenes">
+      <h2>高频场景调研（打磨用）</h2>
+      <p class="muted">完整表见 <code>docs/project/agent-scenario-research.md</code>。这里只留会改变优先级的条目。</p>
+      <h3>Knowledge — 代码 grep 解决不了的</h3>
+      <table>
+        <thead><tr><th>场景</th><th>痛点</th><th>优先级</th></tr></thead>
+        <tbody>
+          <tr><td>K-A 合约/MUST</td><td>瞎实现、漏要求</td><td><span class="tag ok">当前主打</span></td></tr>
+          <tr><td>K-B 策略/门禁</td><td>越权突变</td><td><span class="tag ok">当前</span></td></tr>
+          <tr><td>K-C 决策/为何如此</td><td>重复争论</td><td><span class="tag warn">下一刀</span></td></tr>
+          <tr><td>K-D 已踩坑/会话失忆</td><td>每会话重踩</td><td>候选</td></tr>
+          <tr><td>K-E 跑书/跨系统</td><td>乱翻外部文档</td><td>候选</td></tr>
+          <tr><td>K-F 外部 API 现行文档</td><td>训练数据过期</td><td><span class="tag">未来 search？</span></td></tr>
+          <tr><td>代码导航</td><td>—</td><td><span class="tag bad">不抢</span>（grep/LSP）</td></tr>
+        </tbody>
+      </table>
+      <h3>Task — 跨会话工作记忆</h3>
+      <table>
+        <thead><tr><th>场景</th><th>痛点</th><th>优先级</th></tr></thead>
+        <tbody>
+          <tr><td>T-A ready 开干</td><td>不知从哪继续</td><td><span class="tag ok">路径 A 核心</span></td></tr>
+          <tr><td>T-B 查状态/关联</td><td>复杂查询（你提到的）</td><td><span class="tag ok">说明书必写</span></td></tr>
+          <tr><td>T-D 干中发现新活</td><td>只记在聊天里</td><td><span class="tag ok">极高频</span></td></tr>
+          <tr><td>T-F 收工证据</td><td>假完成</td><td><span class="tag ok">必写</span></td></tr>
+          <tr><td>T-C/E 认领与阻塞</td><td>双写 / 做错序</td><td>Beads 原生</td></tr>
+          <tr><td>T-H managed apply</td><td>规格↔Beads 漂移</td><td><span class="tag warn">路径 B 非常规</span></td></tr>
+        </tbody>
+      </table>
+      <div class="callout">
+        <strong>vibe search：</strong>仅作备忘。K-F（外部文档/检索）很热，但与「受控语料 ask」是不同能力；未立项。
+      </div>
+    </section>
+
+    <section id="stars">
+      <h2>明星 / 同类产品：他们到底解决了 agent 的什么问题？</h2>
+      <p class="muted">调研结论：真正「火」且对 agent 有用的，多半不是又一个 harness，而是<strong>接地 / 省 token / 跨会话任务记忆</strong>。</p>
+      <table>
+        <thead>
+          <tr><th>产品</th><th>对 agent 的硬问题</th><th>买点（人话）</th><th>对 Vibe 的启示</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>NotebookLM</strong>（+ Claude 社区用法）</td>
+            <td>上下文塞爆；答案无出处</td>
+            <td>源锚定检索 + citation；研究与实现分离</td>
+            <td>我们已站在这 provider 上；要强化的是<strong>语料是否干净、问法是否确定</strong></td>
+          </tr>
+          <tr>
+            <td><strong>Beads (bd)</strong></td>
+            <td>compaction 后失忆；不知道下一步</td>
+            <td><code>bd ready</code> 机器可读；依赖图；git 内任务记忆</td>
+            <td>不要重做 Beads；Vibe 做就绪/闸门/（可选）托管投影</td>
+          </tr>
+          <tr>
+            <td><strong>CLAUDE.md / AGENTS.md</strong></td>
+            <td>每轮行为漂移</td>
+            <td>短规则常驻；知识别塞进行为文件</td>
+            <td>Vibe skills 保持薄；知识走 knowledge，不塞满 skill</td>
+          </tr>
+          <tr>
+            <td><strong>Knowit / AKB / Engram</strong> 类</td>
+            <td>跨会话工程记忆</td>
+            <td>结构化记忆 + MCP；git 友好</td>
+            <td>他们是「另一类 knowledge provider 候选」；我们不必现在换，但接口要能换</td>
+          </tr>
+          <tr>
+            <td><strong>Pi</strong></td>
+            <td>harness 太重 / 不可定制</td>
+            <td>极简四工具 + 扩展</td>
+            <td>借「少默认、按需」；不跟它抢 harness</td>
+          </tr>
+          <tr>
+            <td><strong>Eve</strong></td>
+            <td>生产 agent 易断、难审</td>
+            <td>durable + sandbox + HITL</td>
+            <td>借「卡点可见 + 审批清晰」到 doctor/信封；不抄运行时</td>
+          </tr>
+          <tr>
+            <td><strong>RRCE 等 MCP 全家桶</strong></td>
+            <td>知识+任务+RAG 一把梭</td>
+            <td>一站式 MCP</td>
+            <td><span class="tag bad">警惕</span> 范围膨胀；我们偏「薄控制面」而非全家桶</td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="callout warn">
+        <strong>亮眼差异（对我们）：</strong>
+        市场上多数明星要么是 <em>provider 本身</em>（NotebookLM / Beads），要么是 <em>harness</em>（Pi / Eve），要么是 <em>又一个记忆库</em>（Knowit/AKB）。
+        Vibe 的空位是：<strong>把这些 provider 接到 agent 工作流时的控制与适配</strong>——同步范围、ask 政策、能力开关、突变闸门、失败诚实。
+        这不够「炫」，但对「给 agent 用」恰恰是缺口。
+      </div>
+    </section>
+
+    <section id="k">
+      <h2>Knowledge（能力）— 当前场景与缺口</h2>
+      <p><span class="tag ok">能力</span> knowledge &nbsp; <span class="tag blue">provider</span> NotebookLM &nbsp; <span class="tag">当前场景</span> 权威文档语料上的确定问答（常来自 git SSOT）</p>
+      <pre class="flow">Agent 需要「规格到底要求什么」
+        │
+        ▼
+vibe knowledge query   ← 走 Ask 政策，不是裸 notebooklm ask
+        │
+        ├─ 证据不足 → agent 改 git 文档（真源）→ sync --apply → 再 query
+        └─ MUST 清晰 → agent 实现 / 建任务</pre>
+      <p>缺口仍是：写作要利于检索、golden 问法、sync 后 ready。未来其他 knowledge 场景未定，不提前画饼。</p>
+    </section>
+
+    <section id="t">
+      <h2>Task（能力）— 路径 A 比「create/close」更宽</h2>
+      <p><span class="tag warn">能力</span> task &nbsp; <span class="tag blue">provider</span> Beads &nbsp; Consumer 日常主要走路径 A</p>
+
+      <h3>路径 A：agent ↔ Beads（Vibe 负责就绪；查询/编排可以更复杂）</h3>
+      <pre class="flow">vibe task status / doctor     →  TASK_READY？
+        │
+        ▼
+agent 用 bd（provider 原生）可能做很多事，不只 create/close：
+  · bd ready / list / show     ← 查「现在能干什么 / 某任务状态」
+  · bd create / update / close
+  · bd dep / blocked           ← 依赖与阻塞
+  · 多任务并行、发现新任务再挂上
+        │
+        ▼
+Vibe 今天：证明 provider 可用 + 能力开关 +（可选）managed live 闸门
+Vibe 以后可能补：统一 status 信封、只读汇总——仍不是重做 Beads</pre>
+
+      <div class="cols">
+        <div class="box">
+          <h4>路径 A（优先写清）</h4>
+          <ul>
+            <li>Consumer = agent</li>
+            <li>日常：bd 查询 + 变更</li>
+            <li>Vibe：enable / doctor / TASK_READY</li>
+            <li>复杂查询是预期，不是例外</li>
+          </ul>
+        </div>
+        <div class="box">
+          <h4>路径 B（后做 / 写死边界）</h4>
+          <ul>
+            <li>vibe task apply → live Beads</li>
+            <li>双闸门，默认关</li>
+            <li>决策：B-关 或 Option B</li>
+            <li>不要让 agent 以为这是日常</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section id="f">
+      <h2>安装一条线（只负责「把 CLI 装上」）</h2>
+      <p>
+        话术「安装并学习 https://github.com/mike-boost/vibe-control」=
+        <strong>装机</strong>，不是每个 consumer 都去 clone 产品 repo。
+        装完后的「学习」应落到上一节的 <code>describe</code> / <code>--help</code> / skills。
+      </p>
+      <pre class="flow">Agent 收到产品 GitHub URL（装机）
+        │
+        ▼
+[0] clone / 最新 release
+[1] ./scripts/install-user.sh → ~/.local/bin/vibe
+[2] vibe --version
+[3] vibe skills install --apply   （可选但推荐）
+[4] vibe describe --json          ← 用 CLI 学控制面，不读源码树
+        │
+        ▼
+之后在任意 consumer repo：
+  config → doctor → enable knowledge/task → query 或 bd …</pre>
+    </section>
+
+    <section id="next">
+      <h2>下一步（已拍板 2026-07-17）</h2>
+      <div class="callout">
+        决策全文：<code>docs/project/sync/20260717-knowledge-task-polish-strategy.md</code>
+      </div>
+      <table>
+        <thead><tr><th>#</th><th>做什么</th><th>状态</th></tr></thead>
+        <tbody>
+          <tr>
+            <td>1</td>
+            <td>安装对齐 thin skills + doctor 报 missing/mismatch</td>
+            <td><span class="tag ok">本轮债</span></td>
+          </tr>
+          <tr>
+            <td>2</td>
+            <td>Knowledge / Task 新旗舰功能</td>
+            <td><span class="tag">暂缓</span></td>
+          </tr>
+          <tr>
+            <td>3</td>
+            <td>Ask 多 profile / FAQ 缓存 / vibe search / Vibe 任务重排</td>
+            <td><span class="tag bad">明确不做（现阶段）</span></td>
+          </tr>
+        </tbody>
+      </table>
+      <p class="muted">场景调研表仍有参考价值，但不当作产品功能 backlog。</p>
+    </section>
+  </main>
+</body>
+</html>

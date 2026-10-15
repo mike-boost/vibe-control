@@ -1,0 +1,15 @@
+# Suggested consumer .gitignore lines for Vibe Control local artifacts.
+# Copy into your consumer repo .gitignore (or merge manually).
+
+# Experience feedback + diagnostics bundles (voluntary share only)
+runtime/vibe-feedback/
+# Self-grill session receipts (local only; not SSOT)
+runtime/vibe-grill/
+# Skill Assay receipts (local only; not SSOT / not closeout)
+runtime/vibe-skill-assay/
+
+# Local secrets / notebook refs
+.config/.env
+.config/*.local.env
+.config/*secrets*
+.env

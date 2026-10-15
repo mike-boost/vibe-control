@@ -1,0 +1,40 @@
+components:
+  knowledge:
+    enabled: true
+  sdd:
+    enabled: false
+  task:
+    enabled: true
+  tdd:
+    enabled: false
+knowledge:
+  authoritative_statuses:
+  - active
+  exclude_globs:
+  - docs/investigation/**
+  - docs/program/plans/**
+  - docs/phases/**/plans/**
+  - docs/superpowers/plans/**
+  - docs/dashboard/**
+  - '**/archive/**'
+  fallback_provider: repo
+  include_extra:
+  - docs/project/DECISION_LOG.md
+  max_sources: 100
+  provider: notebooklm
+  source_title_template: '[vibe:{project_id}:{doc_id}] {title}'
+  warn_sources: 80
+project:
+  id: migration-harness
+  name: Migration-Harness
+specs:
+  registry: docs/project/spec-registry.yml
+  require_commit_push_for_ssot: true
+  required_fields:
+  - id
+  - status
+  - path
+tasks:
+  checkpoint_required: true
+  plan_to_tasks: true
+  provider: beads

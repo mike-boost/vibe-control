@@ -1,0 +1,2 @@
+level=info msg=mem.init budget_mb=8192 total_ram_mb=16384
+{"project":"demo-project","nodes":511,"edges":1047,"status":"ready"}

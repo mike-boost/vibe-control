@@ -1,0 +1,24 @@
+- id: active_publish_spec
+  status: active
+  path: docs/project/ACTIVE_SPEC.md
+  title: Active Publish Spec
+- id: superseded_legacy_spec
+  status: superseded
+  path: docs/project/SUPERSEDED_SPEC.md
+  title: Superseded Legacy Spec
+- id: excluded_program_plan
+  status: active
+  path: docs/program/plans/EXCLUDED_PLAN.md
+  title: Excluded Program Plan
+- id: excluded_phase_plan
+  status: active
+  path: docs/phases/phase3/plans/EXCLUDED_PHASE_PLAN.md
+  title: Excluded Phase Plan
+- id: excluded_dashboard
+  status: active
+  path: docs/dashboard/EXCLUDED_DASHBOARD.md
+  title: Excluded Dashboard
+- id: excluded_archive
+  status: active
+  path: docs/archive/EXCLUDED_ARCHIVE.md
+  title: Excluded Archive Doc

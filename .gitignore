@@ -1,0 +1,24 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+build/
+dist/
+
+# Test / acceptance artifacts
+.pytest_cache/
+acceptance/*/observed/
+acceptance/*/observed-runtime/
+
+# Local config / secrets
+.env
+.config/.env
+*.pem
+*.key
+
+# OS / editor
+.DS_Store
+.idea/
+.vscode/

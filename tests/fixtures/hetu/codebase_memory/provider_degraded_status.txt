@@ -1,0 +1,2 @@
+level=info msg=mem.init budget_mb=8192 total_ram_mb=16384
+{"content":[{"type":"text","text":"{\"project\":\"demo-project\",\"nodes\":0,\"edges\":0,\"status\":\"indexing\"}"}]}

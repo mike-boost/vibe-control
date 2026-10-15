@@ -1,0 +1,48 @@
+name: Feature request
+description: Request a product capability within Vibe Control scope
+title: "[feat] "
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Feature requests should fit the product model: installable CLI, optional
+        **knowledge** / **task**, validated by `vibe doctor`.
+
+        Out of scope unless product decision changes: PyPI, public OSS license flip,
+        SDD/TDD as user features, plugin marketplace, roadmap/SSOT managers.
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem
+      description: What is hard or missing for your coding-agent workflow?
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed change
+      description: Smallest useful change (docs, doctor guidance, config, CLI)
+    validations:
+      required: true
+  - type: dropdown
+    id: feature-area
+    attributes:
+      label: Area
+      options:
+        - install / update
+        - configuration / Capability Profile
+        - knowledge
+        - task
+        - doctor / diagnostics
+        - docs / feedback
+        - other
+    validations:
+      required: true
+  - type: input
+    id: vibe-version
+    attributes:
+      label: Vibe version (if relevant)
+      placeholder: vibe-control 0.5.0
+    validations:
+      required: false

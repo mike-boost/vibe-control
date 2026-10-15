@@ -1,0 +1,8 @@
+{
+  "content": [
+    {
+      "type": "text",
+      "text": "{\"project\":\"demo-project\",\"clusters\":[{\"id\":1,\"label\":\"core\",\"members\":3,\"cohesion\":0.9,\"top_nodes\":[\"Alpha\",\"Beta\"],\"packages\":[\"demo.mod\"],\"edge_types\":[\"CALLS\"]}],\"total_nodes\":1200,\"total_edges\":3400}"
+    }
+  ]
+}

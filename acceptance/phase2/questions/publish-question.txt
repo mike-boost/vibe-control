@@ -1,0 +1,1 @@
+How should we publish the migration harness while keeping repository Specs as source of truth?

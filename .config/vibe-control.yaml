@@ -1,0 +1,81 @@
+# Vibe Control — fresh project template (safe defaults).
+# Copy to: .config/vibe-control.yaml
+#
+# User path: install → configure → enable knowledge/task only if needed → vibe doctor
+# Do not put secrets, tokens, or notebook refs in this file.
+# Provider names (notebooklm, beads) are not component IDs.
+
+project:
+  id: vibe-control
+  name: Vibe Control
+
+# Optional features. Default: all disabled. No silent auto-enable.
+# Enableable for this release: knowledge, task, hetu.
+# sdd / tdd: not supported yet (enabled=true fails closed).
+components:
+  knowledge:
+    enabled: false
+  task:
+    enabled: false
+  hetu:
+    enabled: false
+  sdd:
+    enabled: false
+  tdd:
+    enabled: false
+
+# Used when components.hetu.enabled=true (optional code-structure capability).
+# Primary provider: codebase_memory. Never auto-reindexes during closeout.
+# hetu:
+#   provider: codebase_memory
+#   freshness_policy: strict
+#   codebase_memory:
+#     binary: codebase-memory-mcp
+#     project: null
+#     index_mode: fast
+#     search_limit: 20
+#     trace_depth: 3
+#     impact_depth: 2
+#     query_timeout_sec: 30
+#     reindex_timeout_sec: 600
+
+# Used when components.knowledge.enabled=true (and for config validate shape).
+# Adjust paths for your repo. Do not commit credentials.
+# Recommended free path for most teams: knowledge.provider: local_fts
+# (SQLite FTS5 evidence retrieval; no NotebookLM required). Keep notebooklm
+# when you explicitly want cloud RAG / synthesis. Owner-explicit — no auto-switch.
+knowledge:
+  provider: notebooklm
+  fallback_provider: repo
+  max_sources: 50
+  warn_sources: 40
+  include_from: docs/project/spec-registry.yml
+  authoritative_statuses:
+    - active
+  include_extra: []
+  exclude_globs:
+    - "**/archive/**"
+  dynamic_docs_enter_kb_by_default: false
+  source_title_template: "[vibe:{project_id}:{doc_id}] {title}"
+  # Optional when using local_fts:
+  # local_fts:
+  #   top_k: 8
+  # Optional corpus buckets (also used by local_fts --notebook=alias as scope):
+  # notebooks:
+  #   default_alias: main
+  #   allow_list: [...]
+
+specs:
+  registry: docs/project/spec-registry.yml
+  require_commit_push_for_ssot: false
+  required_fields:
+    - id
+    - status
+    - path
+
+# Used when components.task.enabled=true.
+tasks:
+  provider: beads
+  plan_to_tasks: false
+  checkpoint_required: false
+  do_not_replace: []

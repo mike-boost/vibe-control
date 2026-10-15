@@ -1,0 +1,2 @@
+level=info msg=mem.init budget_mb=8192 total_ram_mb=16384
+{"total":2,"search_mode":"bm25","results":[{"name":"load_config","qualified_name":"demo.pkg.load_config","label":"Function","file_path":"src/pkg.py","start_line":10,"end_line":20,"rank":1.0},{"name":"save_config","qualified_name":"demo.pkg.save_config","label":"Function","file_path":"src/pkg.py","start_line":30,"end_line":40,"rank":0.5}],"has_more":false}

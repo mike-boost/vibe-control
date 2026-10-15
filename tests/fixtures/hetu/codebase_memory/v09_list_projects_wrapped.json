@@ -1,0 +1,8 @@
+{
+  "content": [
+    {
+      "type": "text",
+      "text": "{\"projects\":[{\"name\":\"demo-project\",\"root_path\":\"/repo/demo\",\"nodes\":1200,\"edges\":3400,\"size_bytes\":1024}]}"
+    }
+  ]
+}

@@ -1,0 +1,6 @@
+codebase-memory-mcp 0.7.0
+
+Usage:
+  codebase-memory-mcp cli <tool> [json]  Run a single tool
+
+Tools: search_graph, list_projects, index_status

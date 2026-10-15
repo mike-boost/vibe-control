@@ -1,0 +1,8 @@
+{
+  "content": [
+    {
+      "type": "text",
+      "text": "{\"paths\":[[\"demo.mod.Alpha\",\"demo.mod.Beta\"]],\"nodes\":[{\"qualified_name\":\"demo.mod.Alpha\",\"file_path\":\"src/mod.py\",\"start_line\":1},{\"qualified_name\":\"demo.mod.Beta\",\"file_path\":\"src/other.py\",\"start_line\":5}],\"edges\":[{\"source\":\"demo.mod.Alpha\",\"target\":\"demo.mod.Beta\",\"type\":\"CALLS\"}]}"
+    }
+  ]
+}

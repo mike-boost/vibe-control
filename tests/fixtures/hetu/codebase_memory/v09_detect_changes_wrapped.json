@@ -1,0 +1,8 @@
+{
+  "content": [
+    {
+      "type": "text",
+      "text": "{\"changed_files\":[\"src/mod.py\"],\"changed_count\":1,\"impacted_symbols\":[{\"qualified_name\":\"demo.mod.Alpha\",\"file_path\":\"src/mod.py\",\"risk\":0.8,\"hops\":1}],\"edges\":[{\"source\":\"demo.mod.Alpha\",\"target\":\"demo.mod.Beta\",\"type\":\"CALLS\"}],\"depth\":2}"
+    }
+  ]
+}

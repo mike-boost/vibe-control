@@ -1,0 +1,17 @@
+entries:
+  - id: vibe_control_spec
+    title: Vibe Control Spec (Front/Core)
+    status: active
+    path: docs/project/vibe-control-spec.md
+  - id: vibe_control_knowledge_spec
+    title: Vibe Control Knowledge Spec
+    status: active
+    path: docs/project/vibe-control-knowledge-spec.md
+  - id: vibe_control_task_spec
+    title: Vibe Control Task Spec
+    status: active
+    path: docs/project/vibe-control-task-spec.md
+  - id: vibe_control_roadmap_state
+    title: Vibe Control Roadmap State
+    status: active
+    path: docs/project/vibe-control-roadmap-state.md
