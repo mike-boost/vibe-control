@@ -36,7 +36,7 @@ tarball), then run the user installer — it builds an isolated venv and puts
 `vibe` on `~/.local/bin`:
 
 ```bash
-git clone git@github.com:mike-boost/vibe-control.git
+git clone https://github.com/mike-boost/vibe-control.git
 cd vibe-control
 git checkout v0.5.14   # or stay on main
 ./scripts/install-user.sh
@@ -80,7 +80,7 @@ vibe doctor --json   # surfaces skills missing/mismatch + next_actions
 **Optional — pipx** (if you already use it):
 
 ```bash
-pipx install "git+ssh://git@github.com/mike-boost/vibe-control.git@v0.5.1"
+pipx install "git+https://github.com/mike-boost/vibe-control.git@v0.5.14"
 vibe --version
 ```
 
@@ -89,7 +89,7 @@ Update with pipx:
 ```bash
 pipx upgrade vibe-control
 # or reinstall from a newer tag:
-pipx install --force "git+ssh://git@github.com/mike-boost/vibe-control.git@v0.5.1"
+pipx install --force "git+https://github.com/mike-boost/vibe-control.git@v0.5.14"
 ```
 
 **Contributors / local editable install** (this repo, for development):
