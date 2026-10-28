@@ -27,12 +27,12 @@ Every GitHub Release **must** have a **version-scoped** body:
 
 ```bash
 # Preview notes for this version
-python3 scripts/extract-release-notes.py 0.5.13
+python3 scripts/extract-release-notes.py 0.5.14
 
 # After create, or to repair historical releases:
-scripts/gh-sync-release-notes.sh 0.5.13
+scripts/gh-sync-release-notes.sh 0.5.14
 scripts/gh-sync-release-notes.sh --all          # backfill / repair all CHANGELOG versions
-scripts/gh-sync-release-notes.sh --check 0.5.13 # drift check
+scripts/gh-sync-release-notes.sh --check 0.5.14 # drift check
 ```
 
 Skipped SemVer holes (e.g. no `v0.5.6` tag) stay skipped — do not invent releases.
@@ -40,7 +40,7 @@ Skipped SemVer holes (e.g. no `v0.5.6` tag) stay skipped — do not invent relea
 ## Preconditions
 
 - [ ] `git status --short` clean on the release commit
-- [ ] `vibe --version` matches intended release (`vibe-control 0.5.13`)
+- [ ] `vibe --version` matches intended release (`vibe-control 0.5.14`)
 - [ ] README / CHANGELOG / LICENSE reflect public release intent
 - [ ] Remote points at `mike-boost/vibe-control`
 - [ ] `scripts/test-full-local-readonly.sh` green (or equivalent maintainer gate)
@@ -67,7 +67,7 @@ If the remote already exists, skip create and only push.
 Use an **annotated** tag matching package SemVer (`v` + `project.version`):
 
 ```bash
-VER=0.5.13
+VER=0.5.14
 TAG=v${VER}
 
 python3 scripts/extract-release-notes.py "$VER" > /tmp/vibe-release-notes.md
