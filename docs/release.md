@@ -96,9 +96,9 @@ for first `pipx` git-tag install.
 **Recommended — source checkout + user installer** (no pipx / no PyPI):
 
 ```bash
-git clone git@github.com:mike-boost/vibe-control.git
+git clone https://github.com/mike-boost/vibe-control.git
 cd vibe-control
-git checkout v0.5.13
+git checkout v0.5.14
 ./scripts/install-user.sh
 vibe --version
 ./scripts/install-user.sh --uninstall   # when removing
@@ -108,16 +108,16 @@ vibe --version
 
 ```bash
 # install
-pipx install "git+ssh://git@github.com/mike-boost/vibe-control.git@v0.5.13"
+pipx install "git+https://github.com/mike-boost/vibe-control.git@v0.5.14"
 vibe --version
 
 # update to a newer tag
-pipx install --force "git+ssh://git@github.com/mike-boost/vibe-control.git@vX.Y.Z"
+pipx install --force "git+https://github.com/mike-boost/vibe-control.git@vX.Y.Z"
 # or, if the same package name is already managed by pipx:
 pipx upgrade vibe-control
 
-# rollback: reinstall previous tag
-pipx install --force "git+ssh://git@github.com/mike-boost/vibe-control.git@v0.5.10"
+# rollback: no earlier public tag exists yet (v0.5.14 is the only public tag),
+# so there is no tag to roll back to — do not invent one.
 
 # uninstall
 pipx uninstall vibe-control
