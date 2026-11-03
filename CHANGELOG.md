@@ -3,6 +3,10 @@
 All notable releases of Vibe Control are recorded here.
 Format follows a simple Keep a Changelog style for releases.
 
+Note: versions before 0.5.14 predate this public repository, so their
+`Tag:` lines refer to internal releases, not tags in this repo — `v0.5.14`
+is currently the only public tag.
+
 ## [0.5.14]
 
 Tag: `v0.5.14`.
