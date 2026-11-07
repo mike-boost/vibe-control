@@ -39,7 +39,7 @@
 
 因此：**日常学习契约 = CLI 自解释 + 薄 skill + JSON 信封**，不是「clone 产品 repo 再读 docs」。
 
-「安装并学习 https://github.com/…/vibe-control」只覆盖**第一次把 CLI 装上机器**；装完之后，agent 在任意 consumer 里应靠 CLI 自解释工作。
+「安装并学习 https://github.com/mike-boost/vibe-control」只覆盖**第一次把 CLI 装上机器**；装完之后，agent 在任意 consumer 里应靠 CLI 自解释工作。
 
 ### 已有自解释（调查结果）
 
